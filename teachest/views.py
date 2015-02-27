@@ -5,19 +5,8 @@ from teagraphs.forms import TeaForm
 
 # Create your views here.
 
-def made(request):
-        client = influxdb.InfluxDBClient('localhost', 8086, 'richard', 'richard', 'tea')
-        result = client.query('select sum(cups) from made')
-        cups = result[0]["points"][0][1]
-        result = client.query("select sum(cups) from made where maker = 'richard'")
-        richard= result[0]["points"][0][1]
-        return render(request, 'teagraphs/index.html', {'cups': cups, 'richard': richard})
-
-
-#def addtea(request,quantity=2, maker="richard", type="black", sprint):
-
 def addtea(request):
-        client = influxdb.InfluxDBClient('stats.int.vam.ac.uk', 8086, 'teachart', 'teachart', 'tea')
+        client = influxdb.InfluxDBClient('HOSTNAME', 8086, 'USER', 'PASS', 'DB')
 
         form = TeaForm()
 
@@ -25,7 +14,7 @@ def addtea(request):
             form = TeaForm(request.POST)
             if form.is_valid():
                 cd = form.cleaned_data
-                client = influxdb.InfluxDBClient('stats.int.vam.ac.uk', 8086, 'teachart', 'teachart', 'tea')
+                client = influxdb.InfluxDBClient('HOSTNAME', 8086, 'USER', 'PASS', 'DB')
                 json = [
                     { "points": [
                         [   cd["maker"], cd["quantity"] ,
