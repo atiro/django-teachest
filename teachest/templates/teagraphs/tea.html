@@ -1,0 +1,60 @@
+{% extends 'teagraphs/base.html' %}
+{% load bootstrap3 %}
+{% load nvd3_tags %}
+
+{% block extra_head %}
+     {% include_chart_jscss %}
+     {% load_chart tm_charttype tm_chartdata tm_chartcontainer tm_extra %}
+     {% load_chart tt_charttype tt_chartdata tt_chartcontainer tt_extra %}
+     {% load_chart td_charttype td_chartdata td_chartcontainer td_extra %}
+     {% load_chart ts_charttype ts_chartdata ts_chartcontainer ts_extra %}
+{% endblock %}
+
+{% block title %}Tea Graphs{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+
+        <div class="col-md-2">
+    <form action="/teagraphs/addtea" method="post" class="form">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        {% buttons %}
+        <button type="submit" class="btn btn-primary">
+            {% bootstrap_icon "star" %} Submit
+        </button>
+        {% endbuttons %}
+    </form>
+        </div>
+
+                <div class="col-md-4">
+                    <h3>Tea Makers</h3>
+    {% include_container tm_chartcontainer 300 500 %}
+                </div>
+    </div>
+    <div class="row">
+
+                <div class="col-md-3">
+                    <h3>Tea Daily</h3>
+    {% include_container td_chartcontainer 300 400 %}
+                </div>
+
+    </div>
+    <div class="row">
+                <div class="col-md-3">
+                    <h3>Tea by Type</h3>
+    {% include_container tt_chartcontainer 300 400 %}
+                </div>
+    </div>
+    <div class="row">
+                <div class="col-md-3">
+                    <h3>Tea by Sprint</h3>
+    {% include_container ts_chartcontainer 300 400 %}
+                </div>
+    </div>
+</div>
+
+
+{% endblock %}
+

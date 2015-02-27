@@ -1,0 +1,3 @@
+include README.md
+recursive-include teachest/templates *
+recursive-include teachest/migrations *
