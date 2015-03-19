@@ -18,10 +18,11 @@ def addtea(request):
                 json = [
                     { "points": [
                         [   cd["maker"], cd["quantity"] ,
-                            cd["type"], cd["sprint"]
+                            cd["type"], cd["sprint"],
+                            2015
                         ]
                     ], "name": "made",
-                       "columns": ["maker", "cups", "type", "sprint"]}]
+                       "columns": ["maker", "cups", "type", "sprint", "year"]}]
 
                 client.write_points(json)
 
@@ -40,7 +41,7 @@ def addtea(request):
 
 def teamakers(client):
         # Tea Makers PieChart
-        results = client.query('select sum(cups) from made group by maker')
+        results = client.query('select sum(cups) from made where year = 2015 group by maker')
         xdata = [x[2] for x in results[0]["points"]]
         ydata = [x[1] for x in results[0]["points"]]
         chartdata = {'x': xdata, 'y': ydata}
@@ -65,7 +66,7 @@ def teamakers(client):
 
 def teadaily(client):
 
-        results = client.query('select sum(cups) from made group by time(1d) fill(0)')
+        results = client.query('select sum(cups) from made where year = 2015 group by time(1d) fill(0)')
         xdata = [x[0]*1000 for x in results[0]["points"]]
         ydata = [x[1] for x in results[0]["points"]]
         chartdata = {'x': xdata, 'y': ydata}
@@ -86,7 +87,7 @@ def teadaily(client):
         #return render_to_response('teagraphs/teadaily.html', data)
 
 def teasprint(client):
-        results = client.query('select sum(cups) from made group by sprint fill(0)')
+        results = client.query('select sum(cups) from made where year = 2015 group by sprint fill(0)')
         xdata = [x[2] for x in results[0]["points"]]
         ydata = [x[1] for x in results[0]["points"]]
         chartdata = {'x': xdata, 'y': ydata}
@@ -107,7 +108,7 @@ def teasprint(client):
         return graph
 
 def teatypes(client):
-        results = client.query('select sum(cups) from made group by type')
+        results = client.query('select sum(cups) from made where year = 2015 group by type')
         xdata = [x[2] for x in results[0]["points"]]
         ydata = [x[1] for x in results[0]["points"]]
         chartdata = {'x': xdata, 'y': ydata}
